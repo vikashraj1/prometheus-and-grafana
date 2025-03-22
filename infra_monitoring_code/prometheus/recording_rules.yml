@@ -1,0 +1,49 @@
+groups:
+  - name: common_recordings
+    rules:
+      # 1. Instance Availability:
+      # Precompute a flag for instances that are down (1 when up == 0)
+      - record: instance:down_flag
+        expr: up == 0
+
+      # 2. CPU Usage:
+      # Precompute CPU usage percent per instance.
+      - record: instance:cpu_usage_percent
+        expr: 100 - (avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+      # 3. Memory Usage:
+      # Precompute memory usage percent per instance.
+      - record: instance:memory_usage_percent
+        expr: 100 * (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes)
+              / node_memory_MemTotal_bytes
+
+      # 4. Disk Usage:
+      # Precompute disk usage percent per instance.
+      - record: instance:disk_usage_percent
+        expr: 100 * (node_filesystem_size_bytes - node_filesystem_free_bytes)
+              / node_filesystem_size_bytes
+
+      # 5. Nginx Availability:
+      # Precompute a flag for Nginx availability (0 when down, 1 when up).
+      - record: nginx:up_flag
+        expr: nginx_up
+
+      # 6. Nginx Active Connections:
+      # Precompute the active connection count.
+      - record: nginx:active_connections
+        expr: nginx_connections_active
+
+      # 7. MongoDB Availability:
+      # Precompute a flag for MongoDB availability.
+      - record: mongodb:up_flag
+        expr: mongodb_up
+
+      # 8. Grafana Response Time:
+      # Precompute the average Grafana response time over the last 5 minutes.
+      - record: grafana:avg_response_time
+        expr: avg_over_time(grafana_http_request_duration_seconds_sum[5m])
+
+      # 9. Collector Scrape Duration:
+      # Precompute the collector scrape time in ms.
+      - record: collector:scrape_duration_ms
+        expr: collector_scrape_time_ms

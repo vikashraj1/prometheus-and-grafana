@@ -1,0 +1,47 @@
+global:
+  # Timeout for alert resolution. After this period, alerts are considered resolved.
+  resolve_timeout: 5m
+  
+  # SMTP settings for sending email notifications.
+  smtp_smarthost: '{{ SMTP_HOST }}'
+  smtp_from: '{{ SMTP_USER }}'
+  smtp_auth_username: '{{ SMTP_USER }}'
+  smtp_auth_password: '{{ SMTP_PASSWORD }}'
+  smtp_require_tls: true
+  smtp_tls_config:
+    insecure_skip_verify: true
+
+route:
+  # Group alerts by these labels.
+  group_by: ['alertname', 'cluster']
+  
+  # Wait 30 seconds before sending an initial notification.
+  group_wait: 30s
+  
+  # If additional alerts in the group fire, wait 5 minutes between notifications.
+  group_interval: 5m
+  
+  # How long to wait before resending an alert that has already been notified.
+  repeat_interval: 2h
+  
+  # Default receiver if no other route matches.
+  receiver: 'default-receiver'
+  
+  routes:
+    # Example: route alerts labeled as 'critical' to a dedicated receiver.
+    - match:
+        severity: 'critical'
+      receiver: 'critical-email'
+
+receivers:
+  # Default receiver configuration (e.g., for non-critical alerts).
+  - name: 'default-receiver'
+    email_configs:
+      - to: 'vikash@mrmprocom.com'
+        send_resolved: true
+  
+  # Receiver configuration for critical alerts.
+  - name: 'critical-email'
+    email_configs:
+      - to: 'vikash@mrmprocom.com'
+        send_resolved: true

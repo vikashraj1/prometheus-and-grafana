@@ -1,0 +1,103 @@
+groups:
+
+# - name: test-group
+#   rules:
+#     - alert: AlwaysFiring
+#       expr: vector(1)
+#       for: 1m
+#       labels:
+#         severity: test
+#       annotations:
+#         summary: "Test Alert AlwaysFiring"
+
+- name: common_alerts
+  rules:
+  # 1. Instance availability: fires if any target is down
+  - alert: InstanceDown
+    expr: instance:down_flag == 1
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Instance down ({{ $labels.instance }})"
+      description: "The instance {{ $labels.instance }} is not responding."
+
+  # 2. High CPU usage: fires when precomputed CPU usage > 80%
+  - alert: HighCPUUsage
+    expr: instance:cpu_usage_percent > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High CPU usage on {{ $labels.instance }}"
+      description: "CPU usage is above 80% for at least 5 minutes on instance {{ $labels.instance }}."
+
+  # 3. High Memory Usage: fires when precomputed memory usage > 80%
+  - alert: HighMemoryUsage
+    expr: instance:memory_usage_percent > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Memory Usage on {{ $labels.instance }}"
+      description: "Memory usage is above 80% for at least 5 minutes on instance {{ $labels.instance }}."
+
+  # 4. High Disk Usage: fires when precomputed disk usage > 80%
+  - alert: HighDiskUsage
+    expr: instance:disk_usage_percent > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Disk Usage on {{ $labels.instance }}"
+      description: "Disk usage is above 80% for at least 5 minutes on instance {{ $labels.instance }}."
+
+  # 5. Nginx availability: fires if precomputed Nginx flag shows down
+  - alert: NginxDown
+    expr: nginx:up_flag == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx is down on {{ $labels.instance }}"
+      description: "The Nginx instance on {{ $labels.instance }} is not responding."
+
+  # 6. High active connections in Nginx: fires when active connections exceed 200
+  - alert: NginxHighActiveConnections
+    expr: nginx:active_connections > 200
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High active connections in Nginx on {{ $labels.instance }}"
+      description: "Nginx active connections are above 200 for at least 5 minutes on instance {{ $labels.instance }}."
+
+  # 7. MongoDB availability: fires if precomputed MongoDB flag shows down
+  - alert: MongoDBDown
+    expr: mongodb:up_flag == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "MongoDB is down on {{ $labels.instance }}"
+      description: "The MongoDB instance on {{ $labels.instance }} is not responding."
+
+  # 8. High Grafana response time: fires when precomputed average response time > 2 seconds
+  - alert: GrafanaHighResponseTime
+    expr: grafana:avg_response_time > 2
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Grafana response time on {{ $labels.instance }}"
+      description: "Grafana average response time is above 2 seconds for 5 minutes on instance {{ $labels.instance }}."
+
+  # 9. High Collector Scrape Duration: fires when scrape duration exceeds 1000ms
+  - alert: HighScrapeDuration
+    expr: collector:scrape_duration_ms > 1000
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Collector Scrape Duration on {{ $labels.instance }}"
+      description: "Collector scrape duration is above 1000ms for at least 5 minutes on instance {{ $labels.instance }}."
