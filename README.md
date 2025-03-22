@@ -47,14 +47,12 @@ This project sets up a full observability stack:
 
 This project is built upon my previous [multi-container-application](https://github.com/vikashraj1/multi-container-application.git) project and now includes enhanced observability features. The overall setup remains largely the same.
 
----
 
 ### Prerequisites
 
 - **Memory:** At least 4GB free RAM
 - **Tools:** [Vagrant](https://www.vagrantup.com/) (with a supported provider such as VirtualBox) and Git installed
 
----
 
 ### Prepare the Infrastructure Directory
 
@@ -84,7 +82,6 @@ This project is built upon my previous [multi-container-application](https://git
    git clone https://github.com/vikashraj1/prometheus-and-grafana.git shared
    ```
 
----
 
 ### Start the Vagrant Environment
 
@@ -94,7 +91,6 @@ Bring up and SSH into the Ansible VM:
 vagrant up && vagrant ssh ansible
 ```
 
----
 
 ### Deploy the Application with Ansible
 
@@ -118,8 +114,6 @@ vagrant up && vagrant ssh ansible
    ```bash
    ansible-playbook -i inventory playbook.yml
    ```
-
----
 
 ### Verify the Setup
 
