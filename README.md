@@ -1,4 +1,4 @@
-![mon18](https://github.com/user-attachments/assets/ea20da81-62e3-42ab-92b2-8a2f52201a26)# Unified Observability Stack
+# Unified Observability Stack
 
 A comprehensive monitoring and logging system that integrates Prometheus, Alertmanager, Grafana, Loki, and Promtail to provide real-time insights into your server’s performance, resource utilization, and overall health.
 
