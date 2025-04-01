@@ -1,4 +1,4 @@
-# Unified Observability Stack
+![mon18](https://github.com/user-attachments/assets/ea20da81-62e3-42ab-92b2-8a2f52201a26)# Unified Observability Stack
 
 A comprehensive monitoring and logging system that integrates Prometheus, Alertmanager, Grafana, Loki, and Promtail to provide real-time insights into your server’s performance, resource utilization, and overall health.
 
@@ -22,6 +22,8 @@ This project sets up a full observability stack:
   Dynamically collects logs from Docker containers and forwards them to Loki.
 
 ## Architecture
+
+![arch_img](./project-architecture.png)
 
 - **Prometheus**  
   - **Data Collection:** Scrapes metrics from a range of exporters, including system-level metrics and service-specific ones (e.g., Nginx, MongoDB, and a custom Node API exporter).  
